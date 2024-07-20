@@ -37,4 +37,5 @@ func Register(router *gin.Engine, deps Dependencies) {
 	}
 
 	h.newCoffeRoutes()
+	h.newAdminPanel()
 }

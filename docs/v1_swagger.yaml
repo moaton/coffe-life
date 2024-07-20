@@ -1,10 +1,69 @@
 basePath: /api/v1
+definitions:
+  domain.Category:
+    properties:
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  domain.Response:
+    properties:
+      description:
+        type: string
+      errorCode:
+        type: string
+      meta:
+        type: object
+      payload:
+        type: object
+    type: object
 info:
   contact: {}
   description: API for processing clients data
   title: Coffe-Life API
   version: "1.0"
-paths: {}
+paths:
+  /admin/categories:
+    get:
+      consumes:
+      - application/json
+      description: Get all categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: categories
+          schema:
+            allOf:
+            - $ref: '#/definitions/domain.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/domain.Category'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/domain.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/domain.Response'
+      summary: Get categories
+      tags:
+      - categories
 securityDefinitions:
   ApiKeyAuth:
     in: header

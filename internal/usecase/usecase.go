@@ -15,7 +15,9 @@ type Usecases struct {
 }
 
 func New(deps Dependencies) *Usecases {
-	adminDeps := admin.Dependencies{}
+	adminDeps := admin.Dependencies{
+		Repository: deps.Repository,
+	}
 
 	return &Usecases{
 		admin: admin.New(adminDeps),
