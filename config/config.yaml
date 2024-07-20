@@ -1,12 +1,12 @@
 postgres:
   postgres_host: 'localhost'
   postgres_port: 5432
-  postgres_user: postgres
-  postgres_password: postgres
-  postgres_db_name: template_service
+  postgres_user: 'postgres'
+  postgres_password: 'postgres'
+  postgres_db_name: 'coffe-life'
   postgres_max_idle_conns: 2
   postgres_max_open_conns: 10
-  postgres_sslmode: "disable"
+  postgres_sslmode: 'disable'
 http:
   server:
     http_server_port: 8080
