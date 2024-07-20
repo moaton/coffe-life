@@ -3,9 +3,12 @@ package application
 import (
 	"coffe-life/config"
 	"coffe-life/internal/interfaces"
+	"coffe-life/internal/repository"
 	"coffe-life/internal/usecase"
+	"coffe-life/pkg/gorm/postgres"
 	"coffe-life/pkg/logger/zap"
 	"context"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -16,22 +19,27 @@ import (
 type Application struct {
 	ctx        context.Context
 	cfg        *config.Config
-	db         interfaces.Gorm
+	db         *postgres.Gorm
 	logger     logr.Logger
 	httpServer interfaces.Server
 
 	shutdown chan os.Signal
 }
 
-func NewWithContext(ctx context.Context, cfg *config.Config) *Application {
+func NewWithContext(ctx context.Context, cfg *config.Config) (*Application, error) {
+	db, err := postgres.Init(ctx, cfg.Postgres)
+	if err != nil {
+		return nil, fmt.Errorf("failed to init gorm: %w", err)
+	}
 
 	app := &Application{
 		ctx:      ctx,
 		cfg:      cfg,
+		db:       db,
 		shutdown: make(chan os.Signal, 1),
 	}
 
-	return app
+	return app, nil
 }
 
 func (a *Application) Run() {
@@ -45,11 +53,12 @@ func (a *Application) Stop() {
 	close(a.shutdown)
 
 	a.logger.Info("Application stoped")
-
 }
 
 func (a *Application) InitUsecases() interfaces.Usecases {
-	deps := usecase.Dependencies{}
+	deps := usecase.Dependencies{
+		Repository: repository.New(a.db),
+	}
 
 	return usecase.New(deps)
 }
