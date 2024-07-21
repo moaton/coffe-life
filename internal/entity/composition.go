@@ -1,4 +1,4 @@
-package domain
+package entity
 
 type Composition struct {
 	Name   string `json:"name"`

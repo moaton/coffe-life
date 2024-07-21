@@ -1,6 +1,6 @@
 basePath: /api/v1
 definitions:
-  domain.Category:
+  dto.Category:
     properties:
       description:
         type: string
@@ -9,7 +9,14 @@ definitions:
       name:
         type: string
     type: object
-  domain.Response:
+  dto.CategoryRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    type: object
+  dto.Response:
     properties:
       description:
         type: string
@@ -38,30 +45,161 @@ paths:
           description: categories
           schema:
             allOf:
-            - $ref: '#/definitions/domain.Response'
+            - $ref: '#/definitions/dto.Response'
             - properties:
                 payload:
                   items:
-                    $ref: '#/definitions/domain.Category'
+                    $ref: '#/definitions/dto.Category'
                   type: array
               type: object
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/dto.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/dto.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/dto.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/domain.Response'
+            $ref: '#/definitions/dto.Response'
       summary: Get categories
+      tags:
+      - categories
+    post:
+      consumes:
+      - application/json
+      description: Create category
+      parameters:
+      - description: Category
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: category
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Create category
+      tags:
+      - categories
+  /admin/categories/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete category
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: category
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Delete category
+      tags:
+      - categories
+    put:
+      consumes:
+      - application/json
+      description: Update category
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: category
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Update category
       tags:
       - categories
 securityDefinitions:
