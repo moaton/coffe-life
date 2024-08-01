@@ -10,3 +10,6 @@ postgres:
 http:
   server:
     http_server_port: 8080
+jwt_token:
+  jwt_token_secret: 'secret'
+  jwt_token_time_limit: '11h58m58s'

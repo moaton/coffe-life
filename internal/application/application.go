@@ -58,6 +58,7 @@ func (a *Application) Stop() {
 func (a *Application) InitUsecases() interfaces.Usecases {
 	deps := usecase.Dependencies{
 		Repository: repository.New(a.db),
+		JwtToken:   a.cfg.JwtToken,
 	}
 
 	return usecase.New(deps)

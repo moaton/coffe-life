@@ -2,7 +2,7 @@ package http
 
 import (
 	"coffe-life/config"
-	"coffe-life/docs"
+	_ "coffe-life/docs"
 	v1 "coffe-life/internal/controller/http/v1"
 	"coffe-life/internal/interfaces"
 	"coffe-life/pkg/middlewares/ginlogr"
@@ -34,7 +34,6 @@ func NewRouter(deps Dependencies) *gin.Engine {
 		Logger:   deps.Logger,
 		Usecases: deps.Usecases,
 	})
-	docs.SwaggerInfov1.BasePath = "/api/v1"
 
 	router.GET("/swagger/v1/*any", swaggerHandlerV1)
 	return router

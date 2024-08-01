@@ -1,6 +1,8 @@
 package interfaces
 
 import (
+	"coffe-life/config"
+	"coffe-life/internal/dto"
 	"coffe-life/internal/entity"
 	"coffe-life/pkg/gorm/postgres"
 
@@ -14,8 +16,16 @@ type Repository interface {
 
 type AdminRepository interface {
 	Conn() *postgres.Gorm
+
+	Login(db *gorm.DB, req dto.LoginRequest, jwt config.JwtToken) (string, error)
+
 	GetCategories(db *gorm.DB) (entity.Categories, error)
-	CreateCategory(db *gorm.DB, category entity.Category) (string, error)
-	UpdateCategory(db *gorm.DB, category entity.Category) error
+	CreateCategory(db *gorm.DB, category *entity.Category) (string, error)
+	UpdateCategory(db *gorm.DB, category *entity.Category) error
 	DeleteCategory(db *gorm.DB, id string) error
+
+	GetFoods(db *gorm.DB) (entity.Foods, error)
+	CreateFood(db *gorm.DB, food *entity.Food) (string, error)
+	UpdateFood(db *gorm.DB, food *entity.Food) error
+	DeleteFood(db *gorm.DB, id string) error
 }

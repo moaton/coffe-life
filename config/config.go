@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/url"
 	"os"
+	"time"
 
 	"github.com/ilyakaznacheev/cleanenv"
 )
@@ -13,6 +14,7 @@ type (
 	Config struct {
 		Postgres `yaml:"postgres"`
 		HTTP     `yaml:"http"`
+		JwtToken `yaml:"jwt_token"`
 	}
 	Postgres struct {
 		Host         string `env-required:"true" yaml:"postgres_host" env:"POSTGRES_HOST"`
@@ -28,10 +30,25 @@ type (
 			Port string `env-required:"true" yaml:"http_server_port" env:"HTTP_SERVER_PORT"`
 		} `yaml:"server"`
 	}
+
+	JwtToken struct {
+		JwtTokenSecret string        `env-required:"true" yaml:"jwt_token_secret" env:"JWT_TOKEN_SECRET"`
+		TokenTimeLimit time.Duration `env-required:"true" yaml:"jwt_token_time_limit" env:"JWT_TOKEN_TIME_LIMIT"`
+	}
 )
 
 func (p Postgres) DSN() string {
 	return fmt.Sprintf("postgresql://%s:%s@%s/%s?sslmode=disable", url.QueryEscape(p.User), url.QueryEscape(p.Password), p.Host, p.DBName)
+}
+
+func (j JwtToken) GetJwtTokenSecret() string {
+	secret := j.JwtTokenSecret
+
+	return secret
+}
+
+func (j JwtToken) GetTokenTimeLimit() time.Duration {
+	return j.TokenTimeLimit
 }
 
 func New() (*Config, error) {

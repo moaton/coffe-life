@@ -10,8 +10,15 @@ type Usecases interface {
 }
 
 type AdminUsecase interface {
+	Login(ctx context.Context, category dto.LoginRequest) (*dto.LoginResponse, error)
+
 	GetCategories(ctx context.Context) (dto.Categories, error)
 	CreateCategory(ctx context.Context, category dto.CategoryRequest) (string, error)
 	UpdateCategory(ctx context.Context, id string, category dto.CategoryRequest) error
 	DeleteCategory(ctx context.Context, id string) error
+
+	GetFoods(ctx context.Context) (dto.Foods, error)
+	CreateFood(ctx context.Context, category dto.FoodRequest) (string, error)
+	UpdateFood(ctx context.Context, id string, category dto.FoodRequest) error
+	DeleteFood(ctx context.Context, id string) error
 }

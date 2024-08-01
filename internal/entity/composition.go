@@ -5,5 +5,3 @@ type Composition struct {
 	Weight int64  `json:"weight"`
 	Unit   string `json:"unit"`
 }
-
-type Compositions []Composition

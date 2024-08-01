@@ -16,6 +16,76 @@ definitions:
       name:
         type: string
     type: object
+  dto.Composition:
+    properties:
+      name:
+        type: string
+      unit:
+        type: string
+      weight:
+        type: integer
+    type: object
+  dto.Food:
+    properties:
+      category:
+        type: string
+      compositions:
+        items:
+          $ref: '#/definitions/dto.Composition'
+        type: array
+      description:
+        type: string
+      error_reason:
+        type: string
+      id:
+        type: string
+      is_new:
+        type: boolean
+      is_spicy:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: string
+      type:
+        type: string
+    type: object
+  dto.FoodRequest:
+    properties:
+      category:
+        type: string
+      composition:
+        items:
+          $ref: '#/definitions/dto.Composition'
+        type: array
+      description:
+        type: string
+      error_reason:
+        type: string
+      is_new:
+        type: boolean
+      is_spicy:
+        type: boolean
+      name:
+        type: string
+      price:
+        type: string
+      type:
+        type: string
+    type: object
+  dto.LoginRequest:
+    properties:
+      password:
+        format: base64
+        type: string
+      username:
+        type: string
+    type: object
+  dto.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
   dto.Response:
     properties:
       description:
@@ -202,6 +272,214 @@ paths:
       summary: Update category
       tags:
       - categories
+  /admin/foods:
+    get:
+      consumes:
+      - application/json
+      description: Get all foods
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: foods
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/dto.Food'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Get foods
+      tags:
+      - foods
+    post:
+      consumes:
+      - application/json
+      description: Create food
+      parameters:
+      - description: Food
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FoodRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: food
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Create food
+      tags:
+      - foods
+  /admin/foods/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete food
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: food
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Delete food
+      tags:
+      - foods
+    put:
+      consumes:
+      - application/json
+      description: Update food
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Food
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.FoodRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: food
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Update food
+      tags:
+      - foods
+  /admin/login:
+    post:
+      description: Login
+      parameters:
+      - description: Login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginRequest'
+      responses:
+        "200":
+          description: login
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/dto.LoginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Login
+      tags:
+      - auth
 securityDefinitions:
   ApiKeyAuth:
     in: header
