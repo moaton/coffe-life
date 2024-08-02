@@ -11,21 +11,24 @@ import (
 
 func (h *handler) newAdminPanel() {
 	group := h.group.Group("admin/")
-
 	group.POST("login", h.Login)
 
+	groupAuth := h.group.Group("admin/data/")
+	groupAuth.Use(RequireAuth(h.cfg))
+
 	user := group.Group("user/")
+	user.Use(RequireAuth(h.cfg))
 	user.POST("", h.CreateUser)
 
-	group.GET("categories/", h.GetCategories)
-	group.POST("categories/", h.CreateCategory)
-	group.PUT("categories/:id", h.UpdateCategory)
-	group.DELETE("categories/:id", h.DeleteCategory)
+	groupAuth.GET("categories/", h.GetCategories)
+	groupAuth.POST("categories/", h.CreateCategory)
+	groupAuth.PUT("categories/:id", h.UpdateCategory)
+	groupAuth.DELETE("categories/:id", h.DeleteCategory)
 
-	group.GET("foods/", h.GetFoods)
-	group.POST("foods/", h.CreateFood)
-	group.PUT("foods/:id", h.UpdateFood)
-	group.DELETE("foods/:id", h.DeleteFood)
+	groupAuth.GET("foods/", h.GetFoods)
+	groupAuth.POST("foods/", h.CreateFood)
+	groupAuth.PUT("foods/:id", h.UpdateFood)
+	groupAuth.DELETE("foods/:id", h.DeleteFood)
 }
 
 // Login admin login.
@@ -62,6 +65,7 @@ func (h *handler) Login(c *gin.Context) {
 // @Tags user
 // @Summary Create user
 // @Description User
+// @Security ApiKeyAuth
 // @Param request body dto.CreateUserRequest true "User request"
 // @Success 200 {object} dto.Response{payload=string} "user"
 // @Failure 400 {object} dto.Response
@@ -92,7 +96,7 @@ func (h *handler) CreateUser(c *gin.Context) {
 // @Tags categories
 // @Summary Get categories
 // @Description Get all categories
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.Response{payload=dto.Categories} "categories"
@@ -100,7 +104,7 @@ func (h *handler) CreateUser(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/categories [get]
+// @Router /admin/data/categories [get]
 func (h *handler) GetCategories(c *gin.Context) {
 
 	resp, err := h.usecases.Admin().GetCategories(c.Request.Context())
@@ -118,7 +122,7 @@ func (h *handler) GetCategories(c *gin.Context) {
 // @Tags categories
 // @Summary Create category
 // @Description Create category
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Param request body dto.CategoryRequest true "Category"
@@ -127,7 +131,7 @@ func (h *handler) GetCategories(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/categories [post]
+// @Router /admin/data/categories [post]
 func (h *handler) CreateCategory(c *gin.Context) {
 	var req dto.CategoryRequest
 
@@ -151,7 +155,7 @@ func (h *handler) CreateCategory(c *gin.Context) {
 // @Tags categories
 // @Summary Update category
 // @Description Update category
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
@@ -161,7 +165,7 @@ func (h *handler) CreateCategory(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/categories/{id} [put]
+// @Router /admin/data/categories/{id} [put]
 func (h *handler) UpdateCategory(c *gin.Context) {
 	var pathParams dto.IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
@@ -191,7 +195,7 @@ func (h *handler) UpdateCategory(c *gin.Context) {
 // @Tags categories
 // @Summary Delete category
 // @Description Delete category
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
@@ -200,7 +204,7 @@ func (h *handler) UpdateCategory(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/categories/{id} [delete]
+// @Router /admin/data/categories/{id} [delete]
 func (h *handler) DeleteCategory(c *gin.Context) {
 	var pathParams dto.IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
@@ -223,7 +227,7 @@ func (h *handler) DeleteCategory(c *gin.Context) {
 // @Tags foods
 // @Summary Get foods
 // @Description Get all foods
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.Response{payload=dto.Foods} "foods"
@@ -231,7 +235,7 @@ func (h *handler) DeleteCategory(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/foods [get]
+// @Router /admin/data/foods [get]
 func (h *handler) GetFoods(c *gin.Context) {
 
 	resp, err := h.usecases.Admin().GetFoods(c.Request.Context())
@@ -249,7 +253,7 @@ func (h *handler) GetFoods(c *gin.Context) {
 // @Tags foods
 // @Summary Create food
 // @Description Create food
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Param request body dto.FoodRequest true "Food"
@@ -258,7 +262,7 @@ func (h *handler) GetFoods(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/foods [post]
+// @Router /admin/data/foods [post]
 func (h *handler) CreateFood(c *gin.Context) {
 	var req dto.FoodRequest
 
@@ -282,7 +286,7 @@ func (h *handler) CreateFood(c *gin.Context) {
 // @Tags foods
 // @Summary Update food
 // @Description Update food
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
@@ -292,7 +296,7 @@ func (h *handler) CreateFood(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/foods/{id} [put]
+// @Router /admin/data/foods/{id} [put]
 func (h *handler) UpdateFood(c *gin.Context) {
 	var pathParams dto.IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
@@ -322,7 +326,7 @@ func (h *handler) UpdateFood(c *gin.Context) {
 // @Tags foods
 // @Summary Delete food
 // @Description Delete food
-// // @Security ApiKeyAuth
+// @Security ApiKeyAuth
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
@@ -331,7 +335,7 @@ func (h *handler) UpdateFood(c *gin.Context) {
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
 // @Failure 500 {object} dto.Response
-// @Router /admin/foods/{id} [delete]
+// @Router /admin/data/foods/{id} [delete]
 func (h *handler) DeleteFood(c *gin.Context) {
 	var pathParams dto.IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {

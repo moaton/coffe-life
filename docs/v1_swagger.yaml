@@ -114,7 +114,7 @@ info:
   title: Coffe-Life API
   version: "1.0"
 paths:
-  /admin/categories:
+  /admin/data/categories:
     get:
       consumes:
       - application/json
@@ -149,6 +149,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get categories
       tags:
       - categories
@@ -191,10 +193,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Create category
       tags:
       - categories
-  /admin/categories/{id}:
+  /admin/data/categories/{id}:
     delete:
       consumes:
       - application/json
@@ -233,6 +237,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Delete category
       tags:
       - categories
@@ -280,10 +286,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Update category
       tags:
       - categories
-  /admin/foods:
+  /admin/data/foods:
     get:
       consumes:
       - application/json
@@ -318,6 +326,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Get foods
       tags:
       - foods
@@ -360,10 +370,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Create food
       tags:
       - foods
-  /admin/foods/{id}:
+  /admin/data/foods/{id}:
     delete:
       consumes:
       - application/json
@@ -402,6 +414,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Delete food
       tags:
       - foods
@@ -449,6 +463,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Update food
       tags:
       - foods
@@ -527,6 +543,8 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
       summary: Create user
       tags:
       - user

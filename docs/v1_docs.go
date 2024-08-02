@@ -15,8 +15,13 @@ const docTemplatev1 = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/admin/categories": {
+        "/admin/data/categories": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get all categories",
                 "consumes": [
                     "application/json"
@@ -77,6 +82,11 @@ const docTemplatev1 = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create category",
                 "consumes": [
                     "application/json"
@@ -145,8 +155,13 @@ const docTemplatev1 = `{
                 }
             }
         },
-        "/admin/categories/{id}": {
+        "/admin/data/categories/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update category",
                 "consumes": [
                     "application/json"
@@ -222,6 +237,11 @@ const docTemplatev1 = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete category",
                 "consumes": [
                     "application/json"
@@ -288,8 +308,13 @@ const docTemplatev1 = `{
                 }
             }
         },
-        "/admin/foods": {
+        "/admin/data/foods": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get all foods",
                 "consumes": [
                     "application/json"
@@ -350,6 +375,11 @@ const docTemplatev1 = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Create food",
                 "consumes": [
                     "application/json"
@@ -418,8 +448,13 @@ const docTemplatev1 = `{
                 }
             }
         },
-        "/admin/foods/{id}": {
+        "/admin/data/foods/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Update food",
                 "consumes": [
                     "application/json"
@@ -495,6 +530,11 @@ const docTemplatev1 = `{
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Delete food",
                 "consumes": [
                     "application/json"
@@ -627,6 +667,11 @@ const docTemplatev1 = `{
         },
         "/admin/user": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "User",
                 "tags": [
                     "user"
