@@ -27,14 +27,22 @@ func New(deps Dependencies) *Usecase {
 	}
 }
 
-func (u *Usecase) Login(ctx context.Context, req dto.LoginRequest) (*dto.LoginResponse, error) {
+func (u *Usecase) Login(ctx context.Context, req dto.LoginRequest) (*dto.AuthResponse, error) {
 	token, err := u.repo.Admin().Login(u.repo.Conn().WithContext(ctx), req, u.jwtToken)
 	if err != nil {
 		return nil, fmt.Errorf("failed to login: %w", err)
 	}
-	return &dto.LoginResponse{
+	return &dto.AuthResponse{
 		Token: token,
 	}, nil
+}
+
+func (u *Usecase) CreateUser(ctx context.Context, req dto.CreateUserRequest) error {
+	err := u.repo.Admin().CreateUser(u.repo.Conn().WithContext(ctx), convertCreateUserRequestToEntity(req))
+	if err != nil {
+		return fmt.Errorf("failed to create user: %w", err)
+	}
+	return nil
 }
 
 func (u *Usecase) GetCategories(ctx context.Context) (dto.Categories, error) {

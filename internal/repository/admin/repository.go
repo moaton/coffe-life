@@ -45,6 +45,10 @@ func (r *repository) Login(db *gorm.DB, req dto.LoginRequest, jwt config.JwtToke
 	return tokenString, nil
 }
 
+func (r *repository) CreateUser(db *gorm.DB, user *entity.User) error {
+	return db.Create(&user).Error
+}
+
 func (r *repository) GetCategories(db *gorm.DB) (entity.Categories, error) {
 	var categories entity.Categories
 	err := db.Find(&categories).Error

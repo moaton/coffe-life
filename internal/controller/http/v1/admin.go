@@ -14,6 +14,9 @@ func (h *handler) newAdminPanel() {
 
 	group.POST("login", h.Login)
 
+	user := group.Group("user/")
+	user.POST("", h.CreateUser)
+
 	group.GET("categories/", h.GetCategories)
 	group.POST("categories/", h.CreateCategory)
 	group.PUT("categories/:id", h.UpdateCategory)
@@ -30,7 +33,7 @@ func (h *handler) newAdminPanel() {
 // @Summary Login
 // @Description Login
 // @Param request body dto.LoginRequest true "Login"
-// @Success 200 {object} dto.Response{payload=dto.LoginResponse} "login"
+// @Success 200 {object} dto.Response{payload=dto.AuthResponse} "login"
 // @Failure 400 {object} dto.Response
 // @Failure 401 {object} dto.Response
 // @Failure 403 {object} dto.Response
@@ -52,6 +55,36 @@ func (h *handler) Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, dto.Response{
 		Payload: resp,
+	})
+}
+
+// User admin create user.
+// @Tags user
+// @Summary Create user
+// @Description User
+// @Param request body dto.CreateUserRequest true "User request"
+// @Success 200 {object} dto.Response{payload=string} "user"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/user [post]
+func (h *handler) CreateUser(c *gin.Context) {
+	var req dto.CreateUserRequest
+
+	if err := c.ShouldBind(&req); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
+		return
+	}
+
+	err := h.usecases.Admin().CreateUser(c.Request.Context(), req)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: "success",
 	})
 }
 

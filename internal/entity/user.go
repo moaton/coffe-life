@@ -3,7 +3,7 @@ package entity
 import "github.com/google/uuid"
 
 type User struct {
-	ID        uuid.UUID `json:"id"`
+	ID        uuid.UUID `json:"id" gorm:"default:uuid_generate_v4()"`
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Password  string    `json:"password"`

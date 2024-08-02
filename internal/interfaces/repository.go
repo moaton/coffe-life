@@ -18,6 +18,7 @@ type AdminRepository interface {
 	Conn() *postgres.Gorm
 
 	Login(db *gorm.DB, req dto.LoginRequest, jwt config.JwtToken) (string, error)
+	CreateUser(db *gorm.DB, req *entity.User) error
 
 	GetCategories(db *gorm.DB) (entity.Categories, error)
 	CreateCategory(db *gorm.DB, category *entity.Category) (string, error)

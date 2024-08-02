@@ -1,5 +1,10 @@
 basePath: /api/v1
 definitions:
+  dto.AuthResponse:
+    properties:
+      token:
+        type: string
+    type: object
   dto.Category:
     properties:
       description:
@@ -24,6 +29,17 @@ definitions:
         type: string
       weight:
         type: integer
+    type: object
+  dto.CreateUserRequest:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
     type: object
   dto.Food:
     properties:
@@ -79,11 +95,6 @@ definitions:
         format: base64
         type: string
       username:
-        type: string
-    type: object
-  dto.LoginResponse:
-    properties:
-      token:
         type: string
     type: object
   dto.Response:
@@ -459,7 +470,7 @@ paths:
             - $ref: '#/definitions/dto.Response'
             - properties:
                 payload:
-                  $ref: '#/definitions/dto.LoginResponse'
+                  $ref: '#/definitions/dto.AuthResponse'
               type: object
         "400":
           description: Bad Request
@@ -480,6 +491,45 @@ paths:
       summary: Login
       tags:
       - auth
+  /admin/user:
+    post:
+      description: User
+      parameters:
+      - description: User request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateUserRequest'
+      responses:
+        "200":
+          description: user
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      summary: Create user
+      tags:
+      - user
 securityDefinitions:
   ApiKeyAuth:
     in: header

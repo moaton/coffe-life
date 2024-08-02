@@ -162,10 +162,10 @@ func (mr *MockAdminUsecaseMockRecorder) GetFoods(ctx interface{}) *gomock.Call {
 }
 
 // Login mocks base method.
-func (m *MockAdminUsecase) Login(ctx context.Context, category dto.LoginRequest) (*dto.LoginResponse, error) {
+func (m *MockAdminUsecase) Login(ctx context.Context, category dto.LoginRequest) (*dto.AuthResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", ctx, category)
-	ret0, _ := ret[0].(*dto.LoginResponse)
+	ret0, _ := ret[0].(*dto.AuthResponse)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

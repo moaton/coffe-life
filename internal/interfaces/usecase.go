@@ -10,7 +10,8 @@ type Usecases interface {
 }
 
 type AdminUsecase interface {
-	Login(ctx context.Context, category dto.LoginRequest) (*dto.LoginResponse, error)
+	Login(ctx context.Context, category dto.LoginRequest) (*dto.AuthResponse, error)
+	CreateUser(ctx context.Context, req dto.CreateUserRequest) error
 
 	GetCategories(ctx context.Context) (dto.Categories, error)
 	CreateCategory(ctx context.Context, category dto.CategoryRequest) (string, error)

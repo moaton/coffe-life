@@ -87,3 +87,12 @@ func convertFoodRequestToEntity(r dto.FoodRequest) (*entity.Food, error) {
 		Composition: composition,
 	}, nil
 }
+
+func convertCreateUserRequestToEntity(req dto.CreateUserRequest) *entity.User {
+	return &entity.User{
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+		Password:  req.Password,
+		Username:  req.Username,
+	}
+}
