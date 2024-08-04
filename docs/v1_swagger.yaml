@@ -108,6 +108,26 @@ definitions:
       payload:
         type: object
     type: object
+  dto.UpdateUserRequest:
+    properties:
+      first_name:
+        type: string
+      last_name:
+        type: string
+    type: object
+  dto.User:
+    properties:
+      first_name:
+        type: string
+      id:
+        type: string
+      is_first:
+        type: boolean
+      last_name:
+        type: string
+      username:
+        type: string
+    type: object
 info:
   contact: {}
   description: API for processing clients data
@@ -508,6 +528,54 @@ paths:
       tags:
       - auth
   /admin/user:
+    get:
+      description: Users
+      parameters:
+      - description: search
+        in: query
+        name: search
+        type: string
+      - description: page
+        in: query
+        name: page
+        type: string
+      - description: size
+        in: query
+        name: size
+        type: string
+      responses:
+        "200":
+          description: user
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/dto.User'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get users
+      tags:
+      - user
     post:
       description: User
       parameters:
@@ -546,6 +614,91 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create user
+      tags:
+      - user
+  /admin/user/{id}:
+    get:
+      description: User
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: user
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/dto.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user by id
+      tags:
+      - user
+    put:
+      description: User
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserRequest'
+      responses:
+        "200":
+          description: user
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get user by id
       tags:
       - user
 securityDefinitions:

@@ -96,3 +96,42 @@ func convertCreateUserRequestToEntity(req dto.CreateUserRequest) *entity.User {
 		Username:  req.Username,
 	}
 }
+
+func convertUserToDto(user *entity.User) *dto.User {
+	return &dto.User{
+		ID:        user.ID,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Username:  user.Username,
+		IsFirst:   user.IsFirst,
+	}
+}
+
+func convertUsersToDto(users []*entity.User) []*dto.User {
+	out := make([]*dto.User, 0, len(users))
+
+	for _, user := range users {
+		out = append(out, convertUserToDto(user))
+	}
+	return out
+}
+
+func convertGetUsersRequestToEntity(req dto.GetUsersRequest) entity.GetUsersRequest {
+	return entity.GetUsersRequest{
+		Pagination: entity.Pagination{
+			Limit:  int(req.Size),
+			Offset: int((req.Page - 1) * req.Size),
+		},
+		Search: req.Search,
+	}
+}
+
+func convertUserToEntity(user dto.User) entity.User {
+	return entity.User{
+		ID:        user.ID,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Username:  user.Username,
+		IsFirst:   user.IsFirst,
+	}
+}

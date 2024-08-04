@@ -19,6 +19,9 @@ func (h *handler) newAdminPanel() {
 	user := group.Group("user/")
 	user.Use(RequireAuth(h.cfg))
 	user.POST("", h.CreateUser)
+	user.GET("", h.GetUser)
+	user.GET(":id", h.GetUserById)
+	user.PUT(":id", h.UpdateUser)
 
 	groupAuth.GET("categories/", h.GetCategories)
 	groupAuth.POST("categories/", h.CreateCategory)
@@ -82,6 +85,105 @@ func (h *handler) CreateUser(c *gin.Context) {
 	}
 
 	err := h.usecases.Admin().CreateUser(c.Request.Context(), req)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: "success",
+	})
+}
+
+// User admin get users.
+// @Tags user
+// @Summary Get users
+// @Description Users
+// @Security ApiKeyAuth
+// @Param search query string false "search"
+// @Param page query string false "page"
+// @Param size query string false "size"
+// @Success 200 {object} dto.Response{payload=[]dto.User} "user"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/user [get]
+func (h *handler) GetUser(c *gin.Context) {
+	var req dto.GetUsersRequest
+	if err := c.ShouldBindQuery(&req); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
+		return
+	}
+	log.Println("req", req)
+	resp, err := h.usecases.Admin().GetUsers(c.Request.Context(), req)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: resp,
+	})
+}
+
+// User admin get user by id.
+// @Tags user
+// @Summary Get user by id
+// @Description User
+// @Security ApiKeyAuth
+// @Param id path string true "id"
+// @Success 200 {object} dto.Response{payload=dto.User} "user"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/user/{id} [get]
+func (h *handler) GetUserById(c *gin.Context) {
+	var pathParams dto.IdPathParams
+	if err := c.ShouldBindUri(&pathParams); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
+		return
+	}
+
+	resp, err := h.usecases.Admin().GetUserById(c.Request.Context(), pathParams.ID)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: resp,
+	})
+}
+
+// User admin get user by id.
+// @Tags user
+// @Summary Get user by id
+// @Description User
+// @Security ApiKeyAuth
+// @Param id path string true "id"
+// @Param request body dto.UpdateUserRequest true "User"
+// @Success 200 {object} dto.Response{payload=string} "user"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/user/{id} [put]
+func (h *handler) UpdateUser(c *gin.Context) {
+	var pathParams dto.IdPathParams
+	if err := c.ShouldBindUri(&pathParams); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
+		return
+	}
+
+	var req dto.UpdateUserRequest
+
+	if err := c.ShouldBind(&req); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
+		return
+	}
+	err := h.usecases.Admin().UpdateUser(c.Request.Context(), pathParams.ID, req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return

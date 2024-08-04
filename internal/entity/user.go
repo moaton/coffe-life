@@ -10,3 +10,13 @@ type User struct {
 	Username  string    `json:"username"`
 	IsFirst   bool      `json:"is_first"`
 }
+
+type Pagination struct {
+	Limit  int
+	Offset int
+}
+
+type GetUsersRequest struct {
+	Pagination `json:"pagination"`
+	Search     string `json:"search"`
+}

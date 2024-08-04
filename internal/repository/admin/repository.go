@@ -49,6 +49,38 @@ func (r *repository) CreateUser(db *gorm.DB, user *entity.User) error {
 	return db.Create(&user).Error
 }
 
+func (r *repository) UpdateUser(db *gorm.DB, user entity.User) error {
+	return db.Omit("password", "is_first", "username").Save(&user).Error
+}
+
+func (r *repository) GetUsers(db *gorm.DB, req entity.GetUsersRequest) ([]*entity.User, error) {
+	var users []*entity.User
+	q := db
+
+	if req.Search != "" {
+		s := "%" + req.Search + "%"
+		q = q.Where("LOWER(username) like ?", s).
+			Or("LOWER(first_name) like ?", s).
+			Or("LOWER(last_name) like ?", s)
+	}
+
+	err := q.Debug().Limit(req.Limit).Offset(req.Offset).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func (r *repository) GetUserById(db *gorm.DB, id string) (*entity.User, error) {
+	var user entity.User
+
+	err := db.First(&user, "id=?", id).Error
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 func (r *repository) GetCategories(db *gorm.DB) (entity.Categories, error) {
 	var categories entity.Categories
 	err := db.Find(&categories).Error

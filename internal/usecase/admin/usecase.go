@@ -3,9 +3,11 @@ package admin
 import (
 	"coffe-life/config"
 	"coffe-life/internal/dto"
+	"coffe-life/internal/entity"
 	"coffe-life/internal/interfaces"
 	"context"
 	"fmt"
+	"log"
 
 	"github.com/google/uuid"
 )
@@ -41,6 +43,41 @@ func (u *Usecase) CreateUser(ctx context.Context, req dto.CreateUserRequest) err
 	err := u.repo.Admin().CreateUser(u.repo.Conn().WithContext(ctx), convertCreateUserRequestToEntity(req))
 	if err != nil {
 		return fmt.Errorf("failed to create user: %w", err)
+	}
+	return nil
+}
+
+func (u *Usecase) GetUsers(ctx context.Context, req dto.GetUsersRequest) ([]*dto.User, error) {
+	req.Validate()
+	log.Println(req)
+	users, err := u.repo.Admin().GetUsers(u.repo.Conn().WithContext(ctx), convertGetUsersRequestToEntity(req))
+	if err != nil {
+		return nil, fmt.Errorf("failed to get users: %w", err)
+	}
+	return convertUsersToDto(users), nil
+}
+
+func (u *Usecase) GetUserById(ctx context.Context, id string) (*dto.User, error) {
+	user, err := u.repo.Admin().GetUserById(u.repo.Conn().WithContext(ctx), id)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user by id %v: %w", id, err)
+	}
+	return convertUserToDto(user), nil
+}
+
+func (u *Usecase) UpdateUser(ctx context.Context, id string, req dto.UpdateUserRequest) error {
+	ID, err := uuid.Parse(id)
+	if err != nil {
+		return fmt.Errorf("failed to parse id %v: %w", id, err)
+	}
+	user := entity.User{
+		ID:        ID,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
+	}
+	err = u.repo.Admin().UpdateUser(u.repo.Conn().WithContext(ctx), user)
+	if err != nil {
+		return fmt.Errorf("failed to update user by id %v: %w", id, err)
 	}
 	return nil
 }

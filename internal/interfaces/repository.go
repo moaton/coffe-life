@@ -19,6 +19,9 @@ type AdminRepository interface {
 
 	Login(db *gorm.DB, req dto.LoginRequest, jwt config.JwtToken) (string, error)
 	CreateUser(db *gorm.DB, req *entity.User) error
+	GetUsers(db *gorm.DB, req entity.GetUsersRequest) ([]*entity.User, error)
+	GetUserById(db *gorm.DB, id string) (*entity.User, error)
+	UpdateUser(db *gorm.DB, user entity.User) error
 
 	GetCategories(db *gorm.DB) (entity.Categories, error)
 	CreateCategory(db *gorm.DB, category *entity.Category) (string, error)
