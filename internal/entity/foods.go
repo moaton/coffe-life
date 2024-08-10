@@ -1,6 +1,10 @@
 package entity
 
-import "github.com/google/uuid"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type Food struct {
 	ID          uuid.UUID `json:"id" gorm:"default:uuid_generate_v4()"`
@@ -12,6 +16,9 @@ type Food struct {
 	IsSpicy     bool      `json:"is_spicy"`
 	Description string    `json:"description"`
 	Composition []byte    `json:"composition"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	DeletedAt   time.Time `json:"deleted_at"`
 }
 
 type Foods []Food

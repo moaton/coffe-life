@@ -5,7 +5,6 @@ import (
 	"coffe-life/internal/entity"
 	"encoding/json"
 	"fmt"
-	"log"
 )
 
 func convertCategoryToDto(r entity.Category) dto.Category {
@@ -24,18 +23,10 @@ func convertCategoriesToDto(r entity.Categories) dto.Categories {
 	return out
 }
 
-func convertCategoryRequestToEntity(r dto.CategoryRequest) *entity.Category {
+func convertCategoryToEntity(r dto.Category) *entity.Category {
 	return &entity.Category{
 		Name:        r.Name,
 		Description: r.Description,
-	}
-}
-
-func convertCompostionToDto(r entity.Composition) dto.Composition {
-	return dto.Composition{
-		Name:   r.Name,
-		Weight: r.Weight,
-		Unit:   r.Unit,
 	}
 }
 
@@ -70,12 +61,11 @@ func convertFoodsToDto(r entity.Foods) dto.Foods {
 	return out
 }
 
-func convertFoodRequestToEntity(r dto.FoodRequest) (*entity.Food, error) {
+func convertFoodToEntity(r dto.Food) (*entity.Food, error) {
 	composition, err := json.Marshal(r.Composition)
 	if err != nil {
 		return nil, fmt.Errorf("failed to marshal: %w", err)
 	}
-	log.Println("cmp", composition, r.Composition)
 	return &entity.Food{
 		Name:        r.Name,
 		Type:        r.Type,
@@ -94,6 +84,7 @@ func convertCreateUserRequestToEntity(req dto.CreateUserRequest) *entity.User {
 		LastName:  req.LastName,
 		Password:  req.Password,
 		Username:  req.Username,
+		IsFirst:   true,
 	}
 }
 
@@ -133,5 +124,32 @@ func convertUserToEntity(user dto.User) entity.User {
 		LastName:  user.LastName,
 		Username:  user.Username,
 		IsFirst:   user.IsFirst,
+	}
+}
+
+func convertTranslateToDto(translate entity.Translate) dto.Translate {
+	return dto.Translate{
+		ID:  translate.ID,
+		RU:  translate.RU,
+		KZ:  translate.KZ,
+		ENG: translate.ENG,
+	}
+}
+
+func convertTranslatesToDto(translates []entity.Translate) []dto.Translate {
+	out := make([]dto.Translate, 0, len(translates))
+
+	for _, translate := range translates {
+		out = append(out, convertTranslateToDto(translate))
+	}
+
+	return out
+}
+
+func convertTranslateToEntity(translate dto.Translate) entity.Translate {
+	return entity.Translate{
+		RU:  translate.RU,
+		KZ:  translate.KZ,
+		ENG: translate.ENG,
 	}
 }

@@ -124,7 +124,7 @@ func (s *AuthSuite) TestAuthSuite() {
 	s.T().Run("login: ok", func(t *testing.T) {
 		s.getLoginOkMocks(s.mock)
 
-		resp, err := admin.Login(s.ctx, s.req)
+		resp, err := admin.Users().Login(s.ctx, s.req)
 
 		s.Assert().Equal(nil, err)
 		s.Assert().True(resp.Token != "")
@@ -132,7 +132,7 @@ func (s *AuthSuite) TestAuthSuite() {
 	s.T().Run("login: err", func(t *testing.T) {
 		s.getLoginErrMocks(s.mock)
 
-		resp, err := admin.Login(s.ctx, s.req)
+		resp, err := admin.Users().Login(s.ctx, s.req)
 
 		var expectedResp *dto.AuthResponse
 		s.Assert().Equal(fmt.Errorf("failed to login: %w", errReturned), err)
@@ -196,7 +196,7 @@ func (s *UserSuite) getCreateUserOkMocks(mock sqlmock.Sqlmock) {
 	mock.ExpectBegin()
 	rows := sqlmock.NewRows([]string{"id"}).AddRow("")
 	mock.ExpectQuery(`INSERT INTO "users"*`).
-		WithArgs("test", "test", "test", "test", false).
+		WithArgs("test", "test", sqlmock.AnyArg(), "test", false).
 		WillReturnRows(rows)
 
 	mock.ExpectCommit()
@@ -212,7 +212,7 @@ func (s *UserSuite) getCreateUserErrMocks(mock sqlmock.Sqlmock) {
 	mock.ExpectBegin()
 
 	mock.ExpectQuery(`INSERT INTO "users"*`).
-		WithArgs("test", "test", "test", "test", false).
+		WithArgs("test", "test", sqlmock.AnyArg(), "test", false).
 		WillReturnError(errReturned)
 
 	mock.ExpectRollback()
@@ -223,14 +223,14 @@ func (s *UserSuite) TestCreateUser() {
 	s.T().Run("create user: ok", func(t *testing.T) {
 		s.getCreateUserOkMocks(s.mock)
 
-		err := admin.CreateUser(s.ctx, s.req)
+		err := admin.Users().CreateUser(s.ctx, s.req)
 
 		s.Assert().Equal(nil, err)
 	})
 	s.T().Run("create user: err", func(t *testing.T) {
 		s.getCreateUserErrMocks(s.mock)
 
-		err := admin.CreateUser(s.ctx, s.req)
+		err := admin.Users().CreateUser(s.ctx, s.req)
 
 		s.Assert().Equal(fmt.Errorf("failed to create user: %w", errReturned), err)
 	})

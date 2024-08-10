@@ -1,6 +1,10 @@
 package entity
 
-import "github.com/google/uuid"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type User struct {
 	ID        uuid.UUID `json:"id" gorm:"default:uuid_generate_v4()"`
@@ -9,6 +13,9 @@ type User struct {
 	Password  string    `json:"password"`
 	Username  string    `json:"username"`
 	IsFirst   bool      `json:"is_first"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	DeletedAt time.Time `json:"deleted_at"`
 }
 
 type Pagination struct {

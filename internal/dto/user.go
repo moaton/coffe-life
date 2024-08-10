@@ -23,7 +23,7 @@ type UpdateUserRequest struct {
 }
 
 type User struct {
-	ID        uuid.UUID `json:"id,omitempty"`
+	ID        uuid.UUID `json:"id" readonly:"true"`
 	FirstName string    `json:"first_name"`
 	LastName  string    `json:"last_name"`
 	Username  string    `json:"username"`

@@ -108,6 +108,18 @@ definitions:
       payload:
         type: object
     type: object
+  dto.Translate:
+    properties:
+      eng:
+        type: string
+      id:
+        readOnly: true
+        type: string
+      kz:
+        type: string
+      ru:
+        type: string
+    type: object
   dto.UpdateUserRequest:
     properties:
       first_name:
@@ -488,6 +500,90 @@ paths:
       summary: Update food
       tags:
       - foods
+  /admin/data/translates:
+    get:
+      consumes:
+      - application/json
+      description: Get all translates
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: translates
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  items:
+                    $ref: '#/definitions/dto.Translate'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get translates
+      tags:
+      - translates
+    post:
+      consumes:
+      - application/json
+      description: Create translate
+      parameters:
+      - description: Translate
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Translate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: translate
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/dto.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/dto.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create translate
+      tags:
+      - translates
   /admin/login:
     post:
       description: Login

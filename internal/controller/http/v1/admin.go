@@ -32,6 +32,10 @@ func (h *handler) newAdminPanel() {
 	groupAuth.POST("foods/", h.CreateFood)
 	groupAuth.PUT("foods/:id", h.UpdateFood)
 	groupAuth.DELETE("foods/:id", h.DeleteFood)
+
+	groupAuth.GET("translates/", h.GetTranslates)
+	groupAuth.POST("translates/", h.CreateTranslates)
+	groupAuth.PUT("translates/:id", h.UpdateTranslate)
 }
 
 // Login admin login.
@@ -53,7 +57,7 @@ func (h *handler) Login(c *gin.Context) {
 		return
 	}
 
-	resp, err := h.usecases.Admin().Login(c.Request.Context(), req)
+	resp, err := h.usecases.Admin().Users().Login(c.Request.Context(), req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -84,7 +88,7 @@ func (h *handler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	err := h.usecases.Admin().CreateUser(c.Request.Context(), req)
+	err := h.usecases.Admin().Users().CreateUser(c.Request.Context(), req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -116,7 +120,7 @@ func (h *handler) GetUser(c *gin.Context) {
 		return
 	}
 	log.Println("req", req)
-	resp, err := h.usecases.Admin().GetUsers(c.Request.Context(), req)
+	resp, err := h.usecases.Admin().Users().GetUsers(c.Request.Context(), req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -146,7 +150,7 @@ func (h *handler) GetUserById(c *gin.Context) {
 		return
 	}
 
-	resp, err := h.usecases.Admin().GetUserById(c.Request.Context(), pathParams.ID)
+	resp, err := h.usecases.Admin().Users().GetUserById(c.Request.Context(), pathParams.ID)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -183,7 +187,8 @@ func (h *handler) UpdateUser(c *gin.Context) {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
 		return
 	}
-	err := h.usecases.Admin().UpdateUser(c.Request.Context(), pathParams.ID, req)
+
+	err := h.usecases.Admin().Users().UpdateUser(c.Request.Context(), pathParams.ID, req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -209,7 +214,7 @@ func (h *handler) UpdateUser(c *gin.Context) {
 // @Router /admin/data/categories [get]
 func (h *handler) GetCategories(c *gin.Context) {
 
-	resp, err := h.usecases.Admin().GetCategories(c.Request.Context())
+	resp, err := h.usecases.Admin().Categories().GetCategories(c.Request.Context())
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -227,7 +232,7 @@ func (h *handler) GetCategories(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Accept json
 // @Produce json
-// @Param request body dto.CategoryRequest true "Category"
+// @Param request body dto.Category true "Category"
 // @Success 200 {object} dto.Response{payload=string} "category"
 // @Failure 400 {object} dto.Response
 // @Failure 401 {object} dto.Response
@@ -235,14 +240,14 @@ func (h *handler) GetCategories(c *gin.Context) {
 // @Failure 500 {object} dto.Response
 // @Router /admin/data/categories [post]
 func (h *handler) CreateCategory(c *gin.Context) {
-	var req dto.CategoryRequest
+	var req dto.Category
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
 		return
 	}
 
-	resp, err := h.usecases.Admin().CreateCategory(c.Request.Context(), req)
+	resp, err := h.usecases.Admin().Categories().CreateCategory(c.Request.Context(), req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -261,7 +266,7 @@ func (h *handler) CreateCategory(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Param request body dto.CategoryRequest true "Category"
+// @Param request body dto.Category true "Category"
 // @Success 200 {object} dto.Response{payload=string} "category"
 // @Failure 400 {object} dto.Response
 // @Failure 401 {object} dto.Response
@@ -275,14 +280,14 @@ func (h *handler) UpdateCategory(c *gin.Context) {
 		return
 	}
 
-	var req dto.CategoryRequest
+	var req dto.Category
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
 		return
 	}
 
-	err := h.usecases.Admin().UpdateCategory(c.Request.Context(), pathParams.ID, req)
+	err := h.usecases.Admin().Categories().UpdateCategory(c.Request.Context(), pathParams.ID, req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -314,7 +319,7 @@ func (h *handler) DeleteCategory(c *gin.Context) {
 		return
 	}
 
-	err := h.usecases.Admin().DeleteCategory(c.Request.Context(), pathParams.ID)
+	err := h.usecases.Admin().Categories().DeleteCategory(c.Request.Context(), pathParams.ID)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -340,7 +345,7 @@ func (h *handler) DeleteCategory(c *gin.Context) {
 // @Router /admin/data/foods [get]
 func (h *handler) GetFoods(c *gin.Context) {
 
-	resp, err := h.usecases.Admin().GetFoods(c.Request.Context())
+	resp, err := h.usecases.Admin().Foods().GetFoods(c.Request.Context())
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -358,7 +363,7 @@ func (h *handler) GetFoods(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Accept json
 // @Produce json
-// @Param request body dto.FoodRequest true "Food"
+// @Param request body dto.Food true "Food"
 // @Success 200 {object} dto.Response{payload=string} "food"
 // @Failure 400 {object} dto.Response
 // @Failure 401 {object} dto.Response
@@ -366,14 +371,14 @@ func (h *handler) GetFoods(c *gin.Context) {
 // @Failure 500 {object} dto.Response
 // @Router /admin/data/foods [post]
 func (h *handler) CreateFood(c *gin.Context) {
-	var req dto.FoodRequest
+	var req dto.Food
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
 		return
 	}
 	log.Println("req", req)
-	resp, err := h.usecases.Admin().CreateFood(c.Request.Context(), req)
+	resp, err := h.usecases.Admin().Foods().CreateFood(c.Request.Context(), req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -392,7 +397,7 @@ func (h *handler) CreateFood(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Param request body dto.FoodRequest true "Food"
+// @Param request body dto.Food true "Food"
 // @Success 200 {object} dto.Response{payload=string} "food"
 // @Failure 400 {object} dto.Response
 // @Failure 401 {object} dto.Response
@@ -406,14 +411,14 @@ func (h *handler) UpdateFood(c *gin.Context) {
 		return
 	}
 
-	var req dto.FoodRequest
+	var req dto.Food
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
 		return
 	}
 
-	err := h.usecases.Admin().UpdateFood(c.Request.Context(), pathParams.ID, req)
+	err := h.usecases.Admin().Foods().UpdateFood(c.Request.Context(), pathParams.ID, req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -445,7 +450,107 @@ func (h *handler) DeleteFood(c *gin.Context) {
 		return
 	}
 
-	err := h.usecases.Admin().DeleteFood(c.Request.Context(), pathParams.ID)
+	err := h.usecases.Admin().Foods().DeleteFood(c.Request.Context(), pathParams.ID)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: &dto.Success{Message: "success"},
+	})
+}
+
+// GetTranslates get translates.
+// @Tags translates
+// @Summary Get translates
+// @Description Get all translates
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.Response{payload=[]dto.Translate} "translates"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/data/translates [get]
+func (h *handler) GetTranslates(c *gin.Context) {
+
+	resp, err := h.usecases.Admin().Translates().GetTranslates(c.Request.Context())
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: resp,
+	})
+}
+
+// CreateTranslates create translate.
+// @Tags translates
+// @Summary Create translate
+// @Description Create translate
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param request body dto.Translate true "Translate"
+// @Success 200 {object} dto.Response{payload=string} "translate"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/data/translates [post]
+func (h *handler) CreateTranslates(c *gin.Context) {
+	var req dto.Translate
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
+		return
+	}
+
+	err := h.usecases.Admin().Translates().CreateTranslate(c.Request.Context(), req)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, dto.Response{
+		Payload: "success",
+	})
+}
+
+// UpdateTranslate update translate.
+// @Tags translates
+// @Summary Update translate
+// @Description Update translate
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param id path string true "id"
+// @Param request body dto.Translate true "Translate"
+// @Success 200 {object} dto.Response{payload=string} "translate"
+// @Failure 400 {object} dto.Response
+// @Failure 401 {object} dto.Response
+// @Failure 403 {object} dto.Response
+// @Failure 500 {object} dto.Response
+// @Router /admin/data/translates/{id} [put]
+func (h *handler) UpdateTranslate(c *gin.Context) {
+	var pathParams dto.IdPathParams
+	if err := c.ShouldBindUri(&pathParams); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
+		return
+	}
+
+	var req dto.Translate
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse request: %v", err))
+		return
+	}
+
+	req.ID = pathParams.ID
+	err := h.usecases.Admin().Translates().UpdateTranslate(c.Request.Context(), req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return

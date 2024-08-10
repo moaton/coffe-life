@@ -73,96 +73,131 @@ func (m *MockAdminUsecase) EXPECT() *MockAdminUsecaseMockRecorder {
 	return m.recorder
 }
 
-// CreateCategory mocks base method.
-func (m *MockAdminUsecase) CreateCategory(ctx context.Context, category dto.CategoryRequest) (string, error) {
+// Categories mocks base method.
+func (m *MockAdminUsecase) Categories() interfaces.CategoriesUsecase {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateCategory", ctx, category)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret := m.ctrl.Call(m, "Categories")
+	ret0, _ := ret[0].(interfaces.CategoriesUsecase)
+	return ret0
 }
 
-// CreateCategory indicates an expected call of CreateCategory.
-func (mr *MockAdminUsecaseMockRecorder) CreateCategory(ctx, category interface{}) *gomock.Call {
+// Categories indicates an expected call of Categories.
+func (mr *MockAdminUsecaseMockRecorder) Categories() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCategory", reflect.TypeOf((*MockAdminUsecase)(nil).CreateCategory), ctx, category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Categories", reflect.TypeOf((*MockAdminUsecase)(nil).Categories))
 }
 
-// CreateFood mocks base method.
-func (m *MockAdminUsecase) CreateFood(ctx context.Context, category dto.FoodRequest) (string, error) {
+// Foods mocks base method.
+func (m *MockAdminUsecase) Foods() interfaces.FoodsUsecase {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateFood", ctx, category)
-	ret0, _ := ret[0].(string)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret := m.ctrl.Call(m, "Foods")
+	ret0, _ := ret[0].(interfaces.FoodsUsecase)
+	return ret0
 }
 
-// CreateFood indicates an expected call of CreateFood.
-func (mr *MockAdminUsecaseMockRecorder) CreateFood(ctx, category interface{}) *gomock.Call {
+// Foods indicates an expected call of Foods.
+func (mr *MockAdminUsecaseMockRecorder) Foods() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFood", reflect.TypeOf((*MockAdminUsecase)(nil).CreateFood), ctx, category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Foods", reflect.TypeOf((*MockAdminUsecase)(nil).Foods))
 }
 
-// DeleteCategory mocks base method.
-func (m *MockAdminUsecase) DeleteCategory(ctx context.Context, id string) error {
+// Translates mocks base method.
+func (m *MockAdminUsecase) Translates() interfaces.TranslatesUsecase {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteCategory", ctx, id)
+	ret := m.ctrl.Call(m, "Translates")
+	ret0, _ := ret[0].(interfaces.TranslatesUsecase)
+	return ret0
+}
+
+// Translates indicates an expected call of Translates.
+func (mr *MockAdminUsecaseMockRecorder) Translates() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Translates", reflect.TypeOf((*MockAdminUsecase)(nil).Translates))
+}
+
+// Users mocks base method.
+func (m *MockAdminUsecase) Users() interfaces.UsersUsecase {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Users")
+	ret0, _ := ret[0].(interfaces.UsersUsecase)
+	return ret0
+}
+
+// Users indicates an expected call of Users.
+func (mr *MockAdminUsecaseMockRecorder) Users() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Users", reflect.TypeOf((*MockAdminUsecase)(nil).Users))
+}
+
+// MockUsersUsecase is a mock of UsersUsecase interface.
+type MockUsersUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockUsersUsecaseMockRecorder
+}
+
+// MockUsersUsecaseMockRecorder is the mock recorder for MockUsersUsecase.
+type MockUsersUsecaseMockRecorder struct {
+	mock *MockUsersUsecase
+}
+
+// NewMockUsersUsecase creates a new mock instance.
+func NewMockUsersUsecase(ctrl *gomock.Controller) *MockUsersUsecase {
+	mock := &MockUsersUsecase{ctrl: ctrl}
+	mock.recorder = &MockUsersUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUsersUsecase) EXPECT() *MockUsersUsecaseMockRecorder {
+	return m.recorder
+}
+
+// CreateUser mocks base method.
+func (m *MockUsersUsecase) CreateUser(ctx context.Context, req dto.CreateUserRequest) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUser", ctx, req)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// DeleteCategory indicates an expected call of DeleteCategory.
-func (mr *MockAdminUsecaseMockRecorder) DeleteCategory(ctx, id interface{}) *gomock.Call {
+// CreateUser indicates an expected call of CreateUser.
+func (mr *MockUsersUsecaseMockRecorder) CreateUser(ctx, req interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCategory", reflect.TypeOf((*MockAdminUsecase)(nil).DeleteCategory), ctx, id)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUser", reflect.TypeOf((*MockUsersUsecase)(nil).CreateUser), ctx, req)
 }
 
-// DeleteFood mocks base method.
-func (m *MockAdminUsecase) DeleteFood(ctx context.Context, id string) error {
+// GetUserById mocks base method.
+func (m *MockUsersUsecase) GetUserById(ctx context.Context, id string) (*dto.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DeleteFood", ctx, id)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// DeleteFood indicates an expected call of DeleteFood.
-func (mr *MockAdminUsecaseMockRecorder) DeleteFood(ctx, id interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFood", reflect.TypeOf((*MockAdminUsecase)(nil).DeleteFood), ctx, id)
-}
-
-// GetCategories mocks base method.
-func (m *MockAdminUsecase) GetCategories(ctx context.Context) (dto.Categories, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCategories", ctx)
-	ret0, _ := ret[0].(dto.Categories)
+	ret := m.ctrl.Call(m, "GetUserById", ctx, id)
+	ret0, _ := ret[0].(*dto.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetCategories indicates an expected call of GetCategories.
-func (mr *MockAdminUsecaseMockRecorder) GetCategories(ctx interface{}) *gomock.Call {
+// GetUserById indicates an expected call of GetUserById.
+func (mr *MockUsersUsecaseMockRecorder) GetUserById(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategories", reflect.TypeOf((*MockAdminUsecase)(nil).GetCategories), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserById", reflect.TypeOf((*MockUsersUsecase)(nil).GetUserById), ctx, id)
 }
 
-// GetFoods mocks base method.
-func (m *MockAdminUsecase) GetFoods(ctx context.Context) (dto.Foods, error) {
+// GetUsers mocks base method.
+func (m *MockUsersUsecase) GetUsers(ctx context.Context, req dto.GetUsersRequest) ([]*dto.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetFoods", ctx)
-	ret0, _ := ret[0].(dto.Foods)
+	ret := m.ctrl.Call(m, "GetUsers", ctx, req)
+	ret0, _ := ret[0].([]*dto.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// GetFoods indicates an expected call of GetFoods.
-func (mr *MockAdminUsecaseMockRecorder) GetFoods(ctx interface{}) *gomock.Call {
+// GetUsers indicates an expected call of GetUsers.
+func (mr *MockUsersUsecaseMockRecorder) GetUsers(ctx, req interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFoods", reflect.TypeOf((*MockAdminUsecase)(nil).GetFoods), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUsers", reflect.TypeOf((*MockUsersUsecase)(nil).GetUsers), ctx, req)
 }
 
 // Login mocks base method.
-func (m *MockAdminUsecase) Login(ctx context.Context, category dto.LoginRequest) (*dto.AuthResponse, error) {
+func (m *MockUsersUsecase) Login(ctx context.Context, category dto.LoginRequest) (*dto.AuthResponse, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Login", ctx, category)
 	ret0, _ := ret[0].(*dto.AuthResponse)
@@ -171,13 +206,94 @@ func (m *MockAdminUsecase) Login(ctx context.Context, category dto.LoginRequest)
 }
 
 // Login indicates an expected call of Login.
-func (mr *MockAdminUsecaseMockRecorder) Login(ctx, category interface{}) *gomock.Call {
+func (mr *MockUsersUsecaseMockRecorder) Login(ctx, category interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockAdminUsecase)(nil).Login), ctx, category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Login", reflect.TypeOf((*MockUsersUsecase)(nil).Login), ctx, category)
+}
+
+// UpdateUser mocks base method.
+func (m *MockUsersUsecase) UpdateUser(ctx context.Context, id string, req dto.UpdateUserRequest) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUser", ctx, id, req)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUser indicates an expected call of UpdateUser.
+func (mr *MockUsersUsecaseMockRecorder) UpdateUser(ctx, id, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUser", reflect.TypeOf((*MockUsersUsecase)(nil).UpdateUser), ctx, id, req)
+}
+
+// MockCategoriesUsecase is a mock of CategoriesUsecase interface.
+type MockCategoriesUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockCategoriesUsecaseMockRecorder
+}
+
+// MockCategoriesUsecaseMockRecorder is the mock recorder for MockCategoriesUsecase.
+type MockCategoriesUsecaseMockRecorder struct {
+	mock *MockCategoriesUsecase
+}
+
+// NewMockCategoriesUsecase creates a new mock instance.
+func NewMockCategoriesUsecase(ctrl *gomock.Controller) *MockCategoriesUsecase {
+	mock := &MockCategoriesUsecase{ctrl: ctrl}
+	mock.recorder = &MockCategoriesUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockCategoriesUsecase) EXPECT() *MockCategoriesUsecaseMockRecorder {
+	return m.recorder
+}
+
+// CreateCategory mocks base method.
+func (m *MockCategoriesUsecase) CreateCategory(ctx context.Context, category dto.CategoryRequest) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateCategory", ctx, category)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateCategory indicates an expected call of CreateCategory.
+func (mr *MockCategoriesUsecaseMockRecorder) CreateCategory(ctx, category interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateCategory", reflect.TypeOf((*MockCategoriesUsecase)(nil).CreateCategory), ctx, category)
+}
+
+// DeleteCategory mocks base method.
+func (m *MockCategoriesUsecase) DeleteCategory(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteCategory", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteCategory indicates an expected call of DeleteCategory.
+func (mr *MockCategoriesUsecaseMockRecorder) DeleteCategory(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteCategory", reflect.TypeOf((*MockCategoriesUsecase)(nil).DeleteCategory), ctx, id)
+}
+
+// GetCategories mocks base method.
+func (m *MockCategoriesUsecase) GetCategories(ctx context.Context) (dto.Categories, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCategories", ctx)
+	ret0, _ := ret[0].(dto.Categories)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetCategories indicates an expected call of GetCategories.
+func (mr *MockCategoriesUsecaseMockRecorder) GetCategories(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategories", reflect.TypeOf((*MockCategoriesUsecase)(nil).GetCategories), ctx)
 }
 
 // UpdateCategory mocks base method.
-func (m *MockAdminUsecase) UpdateCategory(ctx context.Context, id string, category dto.CategoryRequest) error {
+func (m *MockCategoriesUsecase) UpdateCategory(ctx context.Context, id string, category dto.CategoryRequest) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateCategory", ctx, id, category)
 	ret0, _ := ret[0].(error)
@@ -185,13 +301,80 @@ func (m *MockAdminUsecase) UpdateCategory(ctx context.Context, id string, catego
 }
 
 // UpdateCategory indicates an expected call of UpdateCategory.
-func (mr *MockAdminUsecaseMockRecorder) UpdateCategory(ctx, id, category interface{}) *gomock.Call {
+func (mr *MockCategoriesUsecaseMockRecorder) UpdateCategory(ctx, id, category interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCategory", reflect.TypeOf((*MockAdminUsecase)(nil).UpdateCategory), ctx, id, category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCategory", reflect.TypeOf((*MockCategoriesUsecase)(nil).UpdateCategory), ctx, id, category)
+}
+
+// MockFoodsUsecase is a mock of FoodsUsecase interface.
+type MockFoodsUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockFoodsUsecaseMockRecorder
+}
+
+// MockFoodsUsecaseMockRecorder is the mock recorder for MockFoodsUsecase.
+type MockFoodsUsecaseMockRecorder struct {
+	mock *MockFoodsUsecase
+}
+
+// NewMockFoodsUsecase creates a new mock instance.
+func NewMockFoodsUsecase(ctrl *gomock.Controller) *MockFoodsUsecase {
+	mock := &MockFoodsUsecase{ctrl: ctrl}
+	mock.recorder = &MockFoodsUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockFoodsUsecase) EXPECT() *MockFoodsUsecaseMockRecorder {
+	return m.recorder
+}
+
+// CreateFood mocks base method.
+func (m *MockFoodsUsecase) CreateFood(ctx context.Context, category dto.FoodRequest) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateFood", ctx, category)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateFood indicates an expected call of CreateFood.
+func (mr *MockFoodsUsecaseMockRecorder) CreateFood(ctx, category interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateFood", reflect.TypeOf((*MockFoodsUsecase)(nil).CreateFood), ctx, category)
+}
+
+// DeleteFood mocks base method.
+func (m *MockFoodsUsecase) DeleteFood(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteFood", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteFood indicates an expected call of DeleteFood.
+func (mr *MockFoodsUsecaseMockRecorder) DeleteFood(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteFood", reflect.TypeOf((*MockFoodsUsecase)(nil).DeleteFood), ctx, id)
+}
+
+// GetFoods mocks base method.
+func (m *MockFoodsUsecase) GetFoods(ctx context.Context) (dto.Foods, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetFoods", ctx)
+	ret0, _ := ret[0].(dto.Foods)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetFoods indicates an expected call of GetFoods.
+func (mr *MockFoodsUsecaseMockRecorder) GetFoods(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetFoods", reflect.TypeOf((*MockFoodsUsecase)(nil).GetFoods), ctx)
 }
 
 // UpdateFood mocks base method.
-func (m *MockAdminUsecase) UpdateFood(ctx context.Context, id string, category dto.FoodRequest) error {
+func (m *MockFoodsUsecase) UpdateFood(ctx context.Context, id string, category dto.FoodRequest) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateFood", ctx, id, category)
 	ret0, _ := ret[0].(error)
@@ -199,7 +382,45 @@ func (m *MockAdminUsecase) UpdateFood(ctx context.Context, id string, category d
 }
 
 // UpdateFood indicates an expected call of UpdateFood.
-func (mr *MockAdminUsecaseMockRecorder) UpdateFood(ctx, id, category interface{}) *gomock.Call {
+func (mr *MockFoodsUsecaseMockRecorder) UpdateFood(ctx, id, category interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFood", reflect.TypeOf((*MockAdminUsecase)(nil).UpdateFood), ctx, id, category)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateFood", reflect.TypeOf((*MockFoodsUsecase)(nil).UpdateFood), ctx, id, category)
+}
+
+// MockTranslatesUsecase is a mock of TranslatesUsecase interface.
+type MockTranslatesUsecase struct {
+	ctrl     *gomock.Controller
+	recorder *MockTranslatesUsecaseMockRecorder
+}
+
+// MockTranslatesUsecaseMockRecorder is the mock recorder for MockTranslatesUsecase.
+type MockTranslatesUsecaseMockRecorder struct {
+	mock *MockTranslatesUsecase
+}
+
+// NewMockTranslatesUsecase creates a new mock instance.
+func NewMockTranslatesUsecase(ctrl *gomock.Controller) *MockTranslatesUsecase {
+	mock := &MockTranslatesUsecase{ctrl: ctrl}
+	mock.recorder = &MockTranslatesUsecaseMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockTranslatesUsecase) EXPECT() *MockTranslatesUsecaseMockRecorder {
+	return m.recorder
+}
+
+// GetTranslates mocks base method.
+func (m *MockTranslatesUsecase) GetTranslates(ctx context.Context) ([]dto.Translate, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTranslates", ctx)
+	ret0, _ := ret[0].([]dto.Translate)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTranslates indicates an expected call of GetTranslates.
+func (mr *MockTranslatesUsecaseMockRecorder) GetTranslates(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslates", reflect.TypeOf((*MockTranslatesUsecase)(nil).GetTranslates), ctx)
 }
