@@ -127,8 +127,8 @@ func convertUserToEntity(user dto.User) entity.User {
 	}
 }
 
-func convertTranslateToDto(translate entity.Translate) dto.Translate {
-	return dto.Translate{
+func convertTranslateToDto(translate *entity.Translate) *dto.Translate {
+	return &dto.Translate{
 		ID:  translate.ID,
 		RU:  translate.RU,
 		KZ:  translate.KZ,
@@ -136,8 +136,8 @@ func convertTranslateToDto(translate entity.Translate) dto.Translate {
 	}
 }
 
-func convertTranslatesToDto(translates []entity.Translate) []dto.Translate {
-	out := make([]dto.Translate, 0, len(translates))
+func convertTranslatesToDto(translates []*entity.Translate) []*dto.Translate {
+	out := make([]*dto.Translate, 0, len(translates))
 
 	for _, translate := range translates {
 		out = append(out, convertTranslateToDto(translate))

@@ -34,6 +34,7 @@ func (h *handler) newAdminPanel() {
 	groupAuth.DELETE("foods/:id", h.DeleteFood)
 
 	groupAuth.GET("translates/", h.GetTranslates)
+	groupAuth.GET("translates/:id", h.GetTranslateById)
 	groupAuth.POST("translates/", h.CreateTranslates)
 	groupAuth.PUT("translates/:id", h.UpdateTranslate)
 }
@@ -43,11 +44,11 @@ func (h *handler) newAdminPanel() {
 // @Summary Login
 // @Description Login
 // @Param request body dto.LoginRequest true "Login"
-// @Success 200 {object} dto.Response{payload=dto.AuthResponse} "login"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=dto.AuthResponse} "login"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/login [post]
 func (h *handler) Login(c *gin.Context) {
 	var req dto.LoginRequest
@@ -63,7 +64,7 @@ func (h *handler) Login(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -74,11 +75,11 @@ func (h *handler) Login(c *gin.Context) {
 // @Description User
 // @Security ApiKeyAuth
 // @Param request body dto.CreateUserRequest true "User request"
-// @Success 200 {object} dto.Response{payload=string} "user"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "user"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/user [post]
 func (h *handler) CreateUser(c *gin.Context) {
 	var req dto.CreateUserRequest
@@ -94,7 +95,7 @@ func (h *handler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: "success",
 	})
 }
@@ -107,11 +108,11 @@ func (h *handler) CreateUser(c *gin.Context) {
 // @Param search query string false "search"
 // @Param page query string false "page"
 // @Param size query string false "size"
-// @Success 200 {object} dto.Response{payload=[]dto.User} "user"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=[]dto.User} "user"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/user [get]
 func (h *handler) GetUser(c *gin.Context) {
 	var req dto.GetUsersRequest
@@ -126,7 +127,7 @@ func (h *handler) GetUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -137,14 +138,14 @@ func (h *handler) GetUser(c *gin.Context) {
 // @Description User
 // @Security ApiKeyAuth
 // @Param id path string true "id"
-// @Success 200 {object} dto.Response{payload=dto.User} "user"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=dto.User} "user"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/user/{id} [get]
 func (h *handler) GetUserById(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -156,7 +157,7 @@ func (h *handler) GetUserById(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -168,14 +169,14 @@ func (h *handler) GetUserById(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Param id path string true "id"
 // @Param request body dto.UpdateUserRequest true "User"
-// @Success 200 {object} dto.Response{payload=string} "user"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "user"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/user/{id} [put]
 func (h *handler) UpdateUser(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -194,7 +195,7 @@ func (h *handler) UpdateUser(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: "success",
 	})
 }
@@ -206,11 +207,11 @@ func (h *handler) UpdateUser(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Accept json
 // @Produce json
-// @Success 200 {object} dto.Response{payload=dto.Categories} "categories"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=dto.Categories} "categories"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/categories [get]
 func (h *handler) GetCategories(c *gin.Context) {
 
@@ -220,7 +221,7 @@ func (h *handler) GetCategories(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -233,11 +234,11 @@ func (h *handler) GetCategories(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body dto.Category true "Category"
-// @Success 200 {object} dto.Response{payload=string} "category"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "category"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/categories [post]
 func (h *handler) CreateCategory(c *gin.Context) {
 	var req dto.Category
@@ -253,7 +254,7 @@ func (h *handler) CreateCategory(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -267,14 +268,14 @@ func (h *handler) CreateCategory(c *gin.Context) {
 // @Produce json
 // @Param id path string true "id"
 // @Param request body dto.Category true "Category"
-// @Success 200 {object} dto.Response{payload=string} "category"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "category"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/categories/{id} [put]
 func (h *handler) UpdateCategory(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -293,8 +294,8 @@ func (h *handler) UpdateCategory(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
-		Payload: &dto.Success{Message: "success"},
+	c.JSON(http.StatusOK, Response{
+		Payload: &Success{Message: "success"},
 	})
 }
 
@@ -306,14 +307,14 @@ func (h *handler) UpdateCategory(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Success 200 {object} dto.Response{payload=string} "category"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "category"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/categories/{id} [delete]
 func (h *handler) DeleteCategory(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -325,8 +326,8 @@ func (h *handler) DeleteCategory(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
-		Payload: &dto.Success{Message: "success"},
+	c.JSON(http.StatusOK, Response{
+		Payload: &Success{Message: "success"},
 	})
 }
 
@@ -337,11 +338,11 @@ func (h *handler) DeleteCategory(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Accept json
 // @Produce json
-// @Success 200 {object} dto.Response{payload=dto.Foods} "foods"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=dto.Foods} "foods"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/foods [get]
 func (h *handler) GetFoods(c *gin.Context) {
 
@@ -351,7 +352,7 @@ func (h *handler) GetFoods(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -364,11 +365,11 @@ func (h *handler) GetFoods(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body dto.Food true "Food"
-// @Success 200 {object} dto.Response{payload=string} "food"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "food"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/foods [post]
 func (h *handler) CreateFood(c *gin.Context) {
 	var req dto.Food
@@ -384,7 +385,7 @@ func (h *handler) CreateFood(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -398,14 +399,14 @@ func (h *handler) CreateFood(c *gin.Context) {
 // @Produce json
 // @Param id path string true "id"
 // @Param request body dto.Food true "Food"
-// @Success 200 {object} dto.Response{payload=string} "food"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "food"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/foods/{id} [put]
 func (h *handler) UpdateFood(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -424,8 +425,8 @@ func (h *handler) UpdateFood(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
-		Payload: &dto.Success{Message: "success"},
+	c.JSON(http.StatusOK, Response{
+		Payload: &Success{Message: "success"},
 	})
 }
 
@@ -437,14 +438,14 @@ func (h *handler) UpdateFood(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Success 200 {object} dto.Response{payload=string} "food"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "food"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/foods/{id} [delete]
 func (h *handler) DeleteFood(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -456,8 +457,8 @@ func (h *handler) DeleteFood(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
-		Payload: &dto.Success{Message: "success"},
+	c.JSON(http.StatusOK, Response{
+		Payload: &Success{Message: "success"},
 	})
 }
 
@@ -468,11 +469,11 @@ func (h *handler) DeleteFood(c *gin.Context) {
 // @Security ApiKeyAuth
 // @Accept json
 // @Produce json
-// @Success 200 {object} dto.Response{payload=[]dto.Translate} "translates"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=[]dto.Translate} "translates"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/translates [get]
 func (h *handler) GetTranslates(c *gin.Context) {
 
@@ -482,7 +483,7 @@ func (h *handler) GetTranslates(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: resp,
 	})
 }
@@ -495,11 +496,11 @@ func (h *handler) GetTranslates(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param request body dto.Translate true "Translate"
-// @Success 200 {object} dto.Response{payload=string} "translate"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "translate"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/translates [post]
 func (h *handler) CreateTranslates(c *gin.Context) {
 	var req dto.Translate
@@ -515,7 +516,7 @@ func (h *handler) CreateTranslates(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
+	c.JSON(http.StatusOK, Response{
 		Payload: "success",
 	})
 }
@@ -529,14 +530,14 @@ func (h *handler) CreateTranslates(c *gin.Context) {
 // @Produce json
 // @Param id path string true "id"
 // @Param request body dto.Translate true "Translate"
-// @Success 200 {object} dto.Response{payload=string} "translate"
-// @Failure 400 {object} dto.Response
-// @Failure 401 {object} dto.Response
-// @Failure 403 {object} dto.Response
-// @Failure 500 {object} dto.Response
+// @Success 200 {object} Response{payload=string} "translate"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
 // @Router /admin/data/translates/{id} [put]
 func (h *handler) UpdateTranslate(c *gin.Context) {
-	var pathParams dto.IdPathParams
+	var pathParams IdPathParams
 	if err := c.ShouldBindUri(&pathParams); err != nil {
 		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
 		return
@@ -549,14 +550,45 @@ func (h *handler) UpdateTranslate(c *gin.Context) {
 		return
 	}
 
-	req.ID = pathParams.ID
-	err := h.usecases.Admin().Translates().UpdateTranslate(c.Request.Context(), req)
+	err := h.usecases.Admin().Translates().UpdateTranslate(c.Request.Context(), pathParams.ID, req)
 	if err != nil {
 		errResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.Response{
-		Payload: &dto.Success{Message: "success"},
+	c.JSON(http.StatusOK, Response{
+		Payload: &Success{Message: "success"},
+	})
+}
+
+// GetTranslateById get translate by id.
+// @Tags translates
+// @Summary Get translate by id
+// @Description Get translate by id
+// @Security ApiKeyAuth
+// @Accept json
+// @Produce json
+// @Param id path string true "id" format(uuid)
+// @Success 200 {object} Response{payload=dto.Translate} "translate"
+// @Failure 400 {object} Response
+// @Failure 401 {object} Response
+// @Failure 403 {object} Response
+// @Failure 500 {object} Response
+// @Router /admin/data/translates/{id} [get]
+func (h *handler) GetTranslateById(c *gin.Context) {
+	var pathParams IdPathParams
+	if err := c.ShouldBindUri(&pathParams); err != nil {
+		errResponse(c, http.StatusBadRequest, fmt.Sprintf("failed to parse path: %v", err))
+		return
+	}
+
+	resp, err := h.usecases.Admin().Translates().GetTranslateById(c.Request.Context(), pathParams.ID)
+	if err != nil {
+		errResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, Response{
+		Payload: resp,
 	})
 }

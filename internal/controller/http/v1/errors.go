@@ -1,14 +1,13 @@
 package v1
 
 import (
-	"coffe-life/internal/dto"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func errResponse(c *gin.Context, code int, message string) {
-	var response dto.Response
+	var response Response
 
 	response.Meta = struct{}{}
 	response.ErrorCode = http.StatusText(code)

@@ -8,7 +8,6 @@ import (
 	"coffe-life/internal/utils"
 	"fmt"
 
-	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -70,7 +69,7 @@ func (r *users) GetUsers(db *gorm.DB, req entity.GetUsersRequest) ([]*entity.Use
 	return users, nil
 }
 
-func (r *users) GetUserById(db *gorm.DB, id uuid.UUID) (*entity.User, error) {
+func (r *users) GetUserById(db *gorm.DB, id string) (*entity.User, error) {
 	var user entity.User
 
 	err := db.First(&user, "id=?", id).Error

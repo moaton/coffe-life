@@ -54,7 +54,7 @@ func (u *users) GetUsers(ctx context.Context, req dto.GetUsersRequest) ([]*dto.U
 	return convertUsersToDto(users), nil
 }
 
-func (u *users) GetUserById(ctx context.Context, id uuid.UUID) (*dto.User, error) {
+func (u *users) GetUserById(ctx context.Context, id string) (*dto.User, error) {
 	user, err := u.repo.Admin().Users().GetUserById(u.repo.Conn().WithContext(ctx), id)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get user by id %v: %w", id, err)
@@ -62,13 +62,17 @@ func (u *users) GetUserById(ctx context.Context, id uuid.UUID) (*dto.User, error
 	return convertUserToDto(user), nil
 }
 
-func (u *users) UpdateUser(ctx context.Context, id uuid.UUID, req dto.UpdateUserRequest) error {
+func (u *users) UpdateUser(ctx context.Context, id string, req dto.UpdateUserRequest) error {
+	ID, err := uuid.Parse(id)
+	if err != nil {
+		return fmt.Errorf("failed to parse uuid: %w", err)
+	}
 	user := entity.User{
-		ID:        id,
+		ID:        ID,
 		FirstName: req.FirstName,
 		LastName:  req.LastName,
 	}
-	err := u.repo.Admin().Users().UpdateUser(u.repo.Conn().WithContext(ctx), user)
+	err = u.repo.Admin().Users().UpdateUser(u.repo.Conn().WithContext(ctx), user)
 	if err != nil {
 		return fmt.Errorf("failed to update user by id %v: %w", id, err)
 	}

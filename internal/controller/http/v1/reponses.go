@@ -1,4 +1,4 @@
-package dto
+package v1
 
 type Response struct {
 	Meta        interface{} `json:"meta" swaggertype:"object"`

@@ -15,8 +15,8 @@ func newTranslates() *translates {
 
 var _ interfaces.Translates = (*translates)(nil)
 
-func (r *translates) GetTranslates(db *gorm.DB) ([]entity.Translate, error) {
-	var translates []entity.Translate
+func (r *translates) GetTranslates(db *gorm.DB) ([]*entity.Translate, error) {
+	var translates []*entity.Translate
 
 	err := db.Find(&translates).Error
 	if err != nil {
@@ -24,6 +24,17 @@ func (r *translates) GetTranslates(db *gorm.DB) ([]entity.Translate, error) {
 	}
 
 	return translates, nil
+}
+
+func (r *translates) GetTranslateById(db *gorm.DB, id string) (*entity.Translate, error) {
+	var translate entity.Translate
+
+	err := db.Where("id=?", id).First(&translate).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &translate, nil
 }
 
 func (r *translates) CreateTranslate(db *gorm.DB, translate entity.Translate) error {

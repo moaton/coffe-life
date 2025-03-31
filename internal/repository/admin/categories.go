@@ -4,7 +4,6 @@ import (
 	"coffe-life/internal/entity"
 	"coffe-life/internal/interfaces"
 
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -44,7 +43,7 @@ func (r *categories) UpdateCategory(db *gorm.DB, category *entity.Category) erro
 	return nil
 }
 
-func (r *categories) DeleteCategory(db *gorm.DB, id uuid.UUID) error {
+func (r *categories) DeleteCategory(db *gorm.DB, id string) error {
 	err := db.Where("id=?", id).Delete(&entity.Category{}).Error
 	if err != nil {
 		return err

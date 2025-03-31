@@ -37,17 +37,22 @@ func (u *categories) CreateCategory(ctx context.Context, category dto.Category) 
 	return id, nil
 }
 
-func (u *categories) UpdateCategory(ctx context.Context, id uuid.UUID, category dto.Category) error {
+func (u *categories) UpdateCategory(ctx context.Context, id string, category dto.Category) error {
 	req := convertCategoryToEntity(category)
-	req.ID = id
-	err := u.repo.Admin().Categories().UpdateCategory(u.repo.Conn().WithContext(ctx), req)
+
+	ID, err := uuid.Parse(id)
+	if err != nil {
+		return fmt.Errorf("failed to parse uuid: %w", err)
+	}
+	req.ID = ID
+	err = u.repo.Admin().Categories().UpdateCategory(u.repo.Conn().WithContext(ctx), req)
 	if err != nil {
 		return fmt.Errorf("failed to delete category %v: %w", id, err)
 	}
 	return nil
 }
 
-func (u *categories) DeleteCategory(ctx context.Context, id uuid.UUID) error {
+func (u *categories) DeleteCategory(ctx context.Context, id string) error {
 	err := u.repo.Admin().Categories().DeleteCategory(u.repo.Conn().WithContext(ctx), id)
 	if err != nil {
 		return fmt.Errorf("failed to delete category %v: %w", id, err)

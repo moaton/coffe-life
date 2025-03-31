@@ -10,13 +10,7 @@ definitions:
       description:
         type: string
       id:
-        type: string
-      name:
-        type: string
-    type: object
-  dto.CategoryRequest:
-    properties:
-      description:
+        readOnly: true
         type: string
       name:
         type: string
@@ -54,29 +48,7 @@ definitions:
       error_reason:
         type: string
       id:
-        type: string
-      is_new:
-        type: boolean
-      is_spicy:
-        type: boolean
-      name:
-        type: string
-      price:
-        type: string
-      type:
-        type: string
-    type: object
-  dto.FoodRequest:
-    properties:
-      category:
-        type: string
-      composition:
-        items:
-          $ref: '#/definitions/dto.Composition'
-        type: array
-      description:
-        type: string
-      error_reason:
+        readOnly: true
         type: string
       is_new:
         type: boolean
@@ -96,17 +68,6 @@ definitions:
         type: string
       username:
         type: string
-    type: object
-  dto.Response:
-    properties:
-      description:
-        type: string
-      errorCode:
-        type: string
-      meta:
-        type: object
-      payload:
-        type: object
     type: object
   dto.Translate:
     properties:
@@ -132,6 +93,7 @@ definitions:
       first_name:
         type: string
       id:
+        readOnly: true
         type: string
       is_first:
         type: boolean
@@ -139,6 +101,17 @@ definitions:
         type: string
       username:
         type: string
+    type: object
+  v1.Response:
+    properties:
+      description:
+        type: string
+      errorCode:
+        type: string
+      meta:
+        type: object
+      payload:
+        type: object
     type: object
 info:
   contact: {}
@@ -158,7 +131,7 @@ paths:
           description: categories
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   items:
@@ -168,19 +141,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Get categories
@@ -196,7 +169,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CategoryRequest'
+          $ref: '#/definitions/dto.Category'
       produces:
       - application/json
       responses:
@@ -204,7 +177,7 @@ paths:
           description: category
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -212,19 +185,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Create category
@@ -248,7 +221,7 @@ paths:
           description: category
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -256,19 +229,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Delete category
@@ -289,7 +262,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.CategoryRequest'
+          $ref: '#/definitions/dto.Category'
       produces:
       - application/json
       responses:
@@ -297,7 +270,7 @@ paths:
           description: category
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -305,19 +278,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Update category
@@ -335,7 +308,7 @@ paths:
           description: foods
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   items:
@@ -345,19 +318,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Get foods
@@ -373,7 +346,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.FoodRequest'
+          $ref: '#/definitions/dto.Food'
       produces:
       - application/json
       responses:
@@ -381,7 +354,7 @@ paths:
           description: food
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -389,19 +362,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Create food
@@ -425,7 +398,7 @@ paths:
           description: food
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -433,19 +406,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Delete food
@@ -466,7 +439,7 @@ paths:
         name: request
         required: true
         schema:
-          $ref: '#/definitions/dto.FoodRequest'
+          $ref: '#/definitions/dto.Food'
       produces:
       - application/json
       responses:
@@ -474,7 +447,7 @@ paths:
           description: food
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -482,19 +455,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Update food
@@ -512,7 +485,7 @@ paths:
           description: translates
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   items:
@@ -522,19 +495,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Get translates
@@ -558,7 +531,7 @@ paths:
           description: translate
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -566,22 +539,116 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Create translate
+      tags:
+      - translates
+  /admin/data/translates/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get translate by id
+      parameters:
+      - description: id
+        format: uuid
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: translate
+          schema:
+            allOf:
+            - $ref: '#/definitions/v1.Response'
+            - properties:
+                payload:
+                  $ref: '#/definitions/dto.Translate'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/v1.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v1.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get translate by id
+      tags:
+      - translates
+    put:
+      consumes:
+      - application/json
+      description: Update translate
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Translate
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.Translate'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: translate
+          schema:
+            allOf:
+            - $ref: '#/definitions/v1.Response'
+            - properties:
+                payload:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.Response'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/v1.Response'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/v1.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update translate
       tags:
       - translates
   /admin/login:
@@ -599,7 +666,7 @@ paths:
           description: login
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   $ref: '#/definitions/dto.AuthResponse'
@@ -607,19 +674,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       summary: Login
       tags:
       - auth
@@ -644,7 +711,7 @@ paths:
           description: user
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   items:
@@ -654,19 +721,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Get users
@@ -686,7 +753,7 @@ paths:
           description: user
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -694,19 +761,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Create user
@@ -726,7 +793,7 @@ paths:
           description: user
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   $ref: '#/definitions/dto.User'
@@ -734,19 +801,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Get user by id
@@ -771,7 +838,7 @@ paths:
           description: user
           schema:
             allOf:
-            - $ref: '#/definitions/dto.Response'
+            - $ref: '#/definitions/v1.Response'
             - properties:
                 payload:
                   type: string
@@ -779,19 +846,19 @@ paths:
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "401":
           description: Unauthorized
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "403":
           description: Forbidden
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/dto.Response'
+            $ref: '#/definitions/v1.Response'
       security:
       - ApiKeyAuth: []
       summary: Get user by id

@@ -41,12 +41,18 @@ func (u *foods) CreateFood(ctx context.Context, food dto.Food) (string, error) {
 	return id, nil
 }
 
-func (u *foods) UpdateFood(ctx context.Context, id uuid.UUID, food dto.Food) error {
+func (u *foods) UpdateFood(ctx context.Context, id string, food dto.Food) error {
 	req, err := convertFoodToEntity(food)
 	if err != nil {
 		return fmt.Errorf("failed to convert food request: %w", err)
 	}
-	req.ID = id
+
+	ID, err := uuid.Parse(id)
+	if err != nil {
+		return fmt.Errorf("failed to parse uuid: %w", err)
+	}
+
+	req.ID = ID
 	err = u.repo.Admin().Foods().UpdateFood(u.repo.Conn().WithContext(ctx), req)
 	if err != nil {
 		return fmt.Errorf("failed to update food: %w", err)
@@ -54,7 +60,7 @@ func (u *foods) UpdateFood(ctx context.Context, id uuid.UUID, food dto.Food) err
 	return nil
 }
 
-func (u *foods) DeleteFood(ctx context.Context, id uuid.UUID) error {
+func (u *foods) DeleteFood(ctx context.Context, id string) error {
 	err := u.repo.Admin().Foods().DeleteFood(u.repo.Conn().WithContext(ctx), id)
 	if err != nil {
 		return fmt.Errorf("failed to delete category %v: %w", id, err)
